@@ -1,10 +1,10 @@
 from enum import Enum, auto
 
 class TipoEntrada(Enum):
-    BEBE = auto()
-    NIÑO = auto()
-    ADULTO = auto()
-    JUBILADO = auto()
+    BEBE = 0
+    NIÑO = 14
+    ADULTO = 23
+    JUBILADO = 18
 
 
 class Entrada:
@@ -37,19 +37,34 @@ class GrupoEntrada:
     def __init__(self):
         self.total = 0
         self.num_entradas = 0
-        self.tipos_entrada = {
-            TipoEntrada.BEBE: 0,
-            TipoEntrada.NIÑO: 0,
-            TipoEntrada.ADULTO: 0,
-            TipoEntrada.JUBILADO: 0
-        }
+        #self.tipos_entrada = {
+            #TipoEntrada.BEBE: {"CANT": 0, "PRECIO": 0},
+            #TipoEntrada.NIÑO: {"CANT": 0, "PRECIO": 14},
+            #TipoEntrada.ADULTO: {"CANT": 0, "PRECIO": 23},
+            #TipoEntrada.JUBILADO: {"CANT": 0, "PRECIO": 18}
+        #}    
+    
+    
+        self.tipos_entrada = {}
+
+        for tipo in TipoEntrada:
+            self.tipos_entrada[tipo] = {"CANT": 0, "PRECIO": tipo.value}
+        """
+        podemos usar "comprehension" 
+        self.tipos_entrada = {tipo: {"CANT": 0, "PRECIO": tipo.value} for tipo in TipoEntrada}
+        """
+                                   
 
     def agregar_entrada(self, edad: int):
                 
         nueva_entrada = Entrada(edad)
         self.total += nueva_entrada.precio
         self.num_entradas += 1
-        self.tipos_entrada[nueva_entrada.tipo] += 1
+        self.tipos_entrada[nueva_entrada.tipo]["CANT"] += 1
+        #self.crear_dic(nueva_entrada.tipo)["CANT"] += 1
 
     def cant_entradas_tipo(self, tipo: TipoEntrada):
-        return self.tipos_entrada[tipo]
+        return self.tipos_entrada[tipo]["CANT"] #self.crear_dic(tipo)["CANT"] 
+    
+    def subtotal_tipo (self, tipo: TipoEntrada):        
+        return self.cant_entradas_tipo(tipo) * self.tipos_entrada[tipo]["PRECIO"] #self.crear_dic(tipo)["PRECIO"]
