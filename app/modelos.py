@@ -58,7 +58,6 @@ class GrupoEntrada:
             #TipoEntrada.JUBILADO: {"CANT": 0, "PRECIO": 18}
         #}    
     
-    
         self.tipos_entrada = {}
 
         for tipo in TipoEntrada:

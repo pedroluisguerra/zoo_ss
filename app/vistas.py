@@ -13,7 +13,7 @@
 10    EDAD: 
 11    CONF:
 """
-from modelos import GrupoEntrada, TipoEntrada
+from app.modelos import GrupoEntrada, TipoEntrada
 from simple_screen import locate, Print, cls, Screen_manager, Input
 class VistaGrupo:
     def __init__(self, grupo: GrupoEntrada, x=1, y=1):
@@ -25,7 +25,7 @@ class VistaGrupo:
         locate(self.x,self.y,"TIPO            PU     CANT      TOTAL")
         locate(self.x,self.y + 1, "======================================")
         for indice,tipo in enumerate(TipoEntrada):
-            locate(self.x,self.y + 2 + indice, f"{tipo.name:.<14s}{tipo.value[0]:5.2f}    {self.grupo.cant_entradas_tipo(tipo):2d}      {self.grupo.subtotal_tipo(tipo):7.2f}")
+            locate(self.x,self.y + 2 + indice, f"{tipo.name:.<14s}{tipo.value.precio:5.2f}    {self.grupo.cant_entradas_tipo(tipo):2d}      {self.grupo.subtotal_tipo(tipo):7.2f}")
         locate(self.x, self.y + 6, "======================================")
         locate(self.x,self.y + 7, f"                      {self.grupo.num_entradas:3d}     {self.grupo.total:8.2f}")
 
@@ -41,8 +41,6 @@ class VistaEntrada:
         locate(self.x, self.y, self.etiqueta)
         return Input()
 
-
-print(__name__)
 
 if __name__ == "__main__":
     with Screen_manager:
