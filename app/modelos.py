@@ -1,16 +1,29 @@
 from enum import Enum, auto
+from collections import namedtuple
+
+Datos_Entrada = namedtuple("Datos_entrada", ["precio", "edad_max"])
 
 class TipoEntrada(Enum):
-    BEBE = 0
-    NIÑO = 14
-    ADULTO = 23
-    JUBILADO = 18
+    BEBE = Datos_Entrada(0, 2)
+    NIÑO = Datos_Entrada(14,12)
+    ADULTO = Datos_Entrada(23, 64)
+    JUBILADO = Datos_Entrada(18, 99)
 
 
 class Entrada:
     def __init__(self, edad: int):
         
         self.__validate_edad(edad)
+
+        self.__edad = edad
+
+        for tipo in TipoEntrada:
+            if edad <= tipo.value.edad_max:
+                self.tipo = tipo
+                self.precio = tipo.value.precio
+                break
+
+        """
         if edad < 0:
             raise ValueError("Edad no puede ser menor a 0")
         
@@ -26,6 +39,7 @@ class Entrada:
         else:
             self.tipo = TipoEntrada.JUBILADO
             self.precio = 18
+         """
 
     def __validate_edad(self, edad):
         if edad < 0:
@@ -48,10 +62,10 @@ class GrupoEntrada:
         self.tipos_entrada = {}
 
         for tipo in TipoEntrada:
-            self.tipos_entrada[tipo] = {"CANT": 0, "PRECIO": tipo.value}
+            self.tipos_entrada[tipo] = {"CANT": 0, "PRECIO": tipo.value.precio}
         """
         podemos usar "comprehension" 
-        self.tipos_entrada = {tipo: {"CANT": 0, "PRECIO": tipo.value} for tipo in TipoEntrada}
+        #self.tipos_entrada = {tipo: {"CANT": 0, "PRECIO": tipo.value} for tipo in TipoEntrada}
         """
                                    
 
