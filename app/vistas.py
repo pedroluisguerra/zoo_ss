@@ -13,7 +13,7 @@
 10    EDAD: 
 11    CONF:
 """
-from app.modelos import GrupoEntrada, TipoEntrada
+from app.modelos import GrupoEntrada, TipoEntrada, Entrada
 from simple_screen import locate, Print, cls, Screen_manager, Input
 class VistaGrupo:
     def __init__(self, grupo: GrupoEntrada, x=1, y=1):
@@ -29,9 +29,9 @@ class VistaGrupo:
         locate(self.x, self.y + 6, "======================================")
         locate(self.x,self.y + 7, f"                      {self.grupo.num_entradas:3d}     {self.grupo.total:8.2f}")
 
-class VistaEntrada:
+class VistaInput:
 
-    def __init__(self, etiqueta: str, x, y):
+    def __init__(self, etiqueta: str, x: int, y: int):
         self.etiqueta = etiqueta
         self.y = y
         self.x = x
@@ -40,6 +40,19 @@ class VistaEntrada:
     def paint(self):
         locate(self.x, self.y, self.etiqueta)
         return Input()
+    
+class VistaInputEdad(VistaInput):
+    def paint(self):
+        while True:
+            cadena = super().paint()
+            try:
+                edad = int(cadena)
+                Entrada(edad)
+                return edad
+            except ValueError as e:
+                if cadena == "":
+                    return cadena
+                locate(self.x, self.y +1, str(e))
 
 
 if __name__ == "__main__":
@@ -51,7 +64,7 @@ if __name__ == "__main__":
 
         vg = VistaGrupo(grupo)
 
-        vedad = VistaEntrada("EDAD: ", 1, 10)
+        vedad = VistaInput("EDAD: ", 1, 10)
 
         vg.paint()
         vedad.paint()

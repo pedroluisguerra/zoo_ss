@@ -1,5 +1,5 @@
-from app.vistas import VistaEntrada, VistaGrupo
-from app.modelos import GrupoEntrada
+from app.vistas import VistaInput, VistaGrupo, VistaInputEdad
+from app.modelos import GrupoEntrada, Entrada
 from simple_screen import DIMENSIONS, cls, locate, Screen_manager, Input
 
 class Zoo:
@@ -9,8 +9,8 @@ class Zoo:
         self.grupo_entradas = GrupoEntrada()
         self.x = (DIMENSIONS.w - 37) // 2
         self.vista_grupo = VistaGrupo(self.grupo_entradas, self.x, 1)
-        self.entrada_edad = VistaEntrada("EDAD: ", self.x, 10)
-        self.entrada_seguir = VistaEntrada("Otra vez (s/n): ", self.x, 12)
+        self.entrada_edad = VistaInputEdad("EDAD: ", self.x, 10)
+        self.entrada_seguir = VistaInput("Otra vez (s/n): ", self.x, 12)
     
     def run(self):
         with Screen_manager:
@@ -26,12 +26,8 @@ class Zoo:
                         continue
                     else:
                         break 
-                try:
-                    edad = int(edad)
-                    self.grupo_entradas.agregar_entrada(edad)
-                except ValueError:
-                    print("Por favor, ingrese una edad válida.")
-                    continue
+                edad = int(edad)
+                self.grupo_entradas.agregar_entrada(edad)
 
             # Final "controlado" del programa
             locate(1, DIMENSIONS.h - 2)
